@@ -2,6 +2,7 @@ package com.rodrigo.consulta_endereco.model.repository;
 
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 import com.rodrigo.consulta_endereco.model.enums.Regiao;
+import com.rodrigo.consulta_endereco.util.EnderecoCriacao;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,20 +28,9 @@ public class EnderecoRepositoryTest {
     @Autowired
     TestEntityManager entityManager;
 
-    public static Endereco criarEndereco(){
-        return Endereco.builder()
-                .cep("37548000")
-                .rua("Gilberto da Silva Viana")
-                .complemento("Casa")
-                .bairro("Chacara")
-                .cidade("Conceicao dos ouros")
-                .estado("Minas Gerais")
-                .regiao(Regiao.SUDESTE).build();
-    }
-
     @Test
     public void criarEPersistirUmEndereco(){
-        Endereco endereco = criarEndereco();
+        Endereco endereco = EnderecoCriacao.criarEndereco();
 
         Endereco enderecoSalvo = enderecoRepository.save(endereco);
 
@@ -52,18 +42,18 @@ public class EnderecoRepositoryTest {
 
     @Test
     public void deveVerificarAExistenciadeUmCep(){
-        Endereco endereco = criarEndereco();
+        Endereco endereco = EnderecoCriacao.criarEndereco();
 
         entityManager.persist(endereco);
 
-        Optional<Endereco> result =  enderecoRepository.findByCep("37548000");
+        Optional<Endereco> result =  enderecoRepository.findByCep(EnderecoCriacao.CEP);
 
         Assertions.assertThat(result.isPresent()).isTrue();
     }
 
     @Test
     public void deveVerificarAExistenciadeUmCepNaoValido(){
-        Endereco endereco = criarEndereco();
+        Endereco endereco = EnderecoCriacao.criarEndereco();
 
         entityManager.persist(endereco);
 
@@ -75,7 +65,7 @@ public class EnderecoRepositoryTest {
     @Test
     public void deveretornarFalsoQuandoNaoHouverEnderecoCadastradoComCep(){
 
-        boolean result =  enderecoRepository.existsByCep("37548000");
+        boolean result =  enderecoRepository.existsByCep(EnderecoCriacao.CEP);
 
         Assertions.assertThat(result).isFalse();
     }
@@ -83,11 +73,11 @@ public class EnderecoRepositoryTest {
     @Test
     public void deveretornarTrueQuandoNaoHouverEnderecoCadastradoComCep(){
 
-        Endereco endereco = criarEndereco();
+        Endereco endereco = EnderecoCriacao.criarEndereco();
 
         entityManager.persist(endereco);
 
-        boolean result =  enderecoRepository.existsByCep("37548000");
+        boolean result =  enderecoRepository.existsByCep(EnderecoCriacao.CEP);
 
         Assertions.assertThat(result).isTrue();
     }

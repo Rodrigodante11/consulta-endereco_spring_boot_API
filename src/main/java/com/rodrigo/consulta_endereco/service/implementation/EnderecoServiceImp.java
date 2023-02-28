@@ -15,13 +15,19 @@ public class EnderecoServiceImp implements EnderecoService {
 
     private EnderecoRepository enderecoRepository;
 
+    public EnderecoServiceImp(EnderecoRepository enderecoRepository) {
+        this.enderecoRepository = enderecoRepository;
+    }
+
     @Override
+    @Transactional(readOnly = true)
     public Optional<Endereco> buscarEnderecoPorCep(String cep){
 
         return enderecoRepository.findByCep(cep);
     }
 
     @Override
+    @Transactional
     public Endereco salvarEndereco(Endereco endereco) {
         validar(endereco);
         return enderecoRepository.save(endereco);
@@ -42,8 +48,6 @@ public class EnderecoServiceImp implements EnderecoService {
         enderecoRepository.delete(endereco);
     }
 
-
-
     @Override
     public Optional<Endereco> obterPorId(long id) {
         return enderecoRepository.findById(id);
@@ -55,7 +59,7 @@ public class EnderecoServiceImp implements EnderecoService {
             throw new ErroCadastroEndereco(" Informe um CEP");
         }
 
-        if(endereco.getCep().length() !=7 ){
+        if(endereco.getCep().length() !=8 ){
             throw new ErroCadastroEndereco(" Tamanho do CEP invalido ");
         }
 
