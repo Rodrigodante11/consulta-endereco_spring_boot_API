@@ -1,8 +1,8 @@
 package com.rodrigo.consulta_endereco.service;
 
+import com.rodrigo.consulta_endereco.api.dto.CepAPIExternaDTO;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface EnderecoService {
@@ -18,4 +18,10 @@ public interface EnderecoService {
     Optional<Endereco> obterPorId(long id);
 
     void validar(Endereco endereco);
+
+    // consultando uma API externa de CEP
+    CepAPIExternaDTO consultaCepAPIExterna(CepAPIExternaDTO cepApiExterna);
+
+    String verFretePorEstado(String estado);
+
 }
