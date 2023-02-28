@@ -1,10 +1,6 @@
-package com.rodrigo.consulta_endereco.util;
+package com.rodrigo.consulta_endereco.utils;
 
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
-import com.rodrigo.consulta_endereco.model.enums.Regiao;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
 
 public class EnderecoCriacao { // usando para os testes nao precisar usar varias criacoes em cada classe de teste
 
@@ -13,7 +9,7 @@ public class EnderecoCriacao { // usando para os testes nao precisar usar varias
     public static String COMPLEMENTO = "Casa";
     public static String BAIRRO = "Chacara";
     public static String CIDADE = "Conceicao dos ouros";
-    public static String ESTADO = "Minas Gerais";
+    public static String ESTADO = "MG";
 
     public static Endereco criarEndereco(){
         return Endereco.builder()
@@ -23,6 +19,6 @@ public class EnderecoCriacao { // usando para os testes nao precisar usar varias
                 .bairro(BAIRRO)
                 .cidade(CIDADE)
                 .estado(ESTADO)
-                .regiao(Regiao.SUDESTE).build();
+                .build();
     }
 }

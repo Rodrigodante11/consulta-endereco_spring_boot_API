@@ -1,8 +1,7 @@
 package com.rodrigo.consulta_endereco.model.repository;
 
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
-import com.rodrigo.consulta_endereco.model.enums.Regiao;
-import com.rodrigo.consulta_endereco.util.EnderecoCriacao;
+import com.rodrigo.consulta_endereco.utils.EnderecoCriacao;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

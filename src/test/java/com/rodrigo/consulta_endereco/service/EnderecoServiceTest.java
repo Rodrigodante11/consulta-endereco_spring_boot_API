@@ -1,7 +1,6 @@
 package com.rodrigo.consulta_endereco.service;
 
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
-import com.rodrigo.consulta_endereco.model.enums.Regiao;
 import com.rodrigo.consulta_endereco.model.repository.EnderecoRepository;
 import com.rodrigo.consulta_endereco.service.implementation.EnderecoServiceImp;
 import org.junit.jupiter.api.Assertions;
@@ -12,7 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import com.rodrigo.consulta_endereco.util.EnderecoCriacao;
+import com.rodrigo.consulta_endereco.utils.EnderecoCriacao;
 
 import java.util.Optional;
 
@@ -48,7 +47,6 @@ public class EnderecoServiceTest {
             Assertions.assertEquals(enderecoSalvoImp.getBairro(), enderecoSalvo.getBairro());
             Assertions.assertEquals(enderecoSalvoImp.getCidade(), enderecoSalvo.getCidade());
             Assertions.assertEquals(enderecoSalvoImp.getEstado(), enderecoSalvo.getEstado());
-            Assertions.assertEquals(enderecoSalvoImp.getRegiao(), enderecoSalvo.getRegiao());
 
         });
     }
@@ -56,7 +54,7 @@ public class EnderecoServiceTest {
     @Test
     public void deveAtualizarUmEndereco(){
         Endereco enderecoSalvo = EnderecoCriacao.criarEndereco();
-        enderecoSalvo.setId(1l);
+        enderecoSalvo.setId(1L);
 
         Mockito.doNothing().when(enderecoServiceImp).validar(enderecoSalvo);
 
@@ -79,7 +77,7 @@ public class EnderecoServiceTest {
     public void deveDeletarUmEndereco(){
 
         Endereco endereco = EnderecoCriacao.criarEndereco();
-        endereco.setId(1l);
+        endereco.setId(1L);
 
         enderecoServiceImp.deletarEndereco(endereco);
 
@@ -104,7 +102,7 @@ public class EnderecoServiceTest {
 
         Assertions.assertDoesNotThrow(() -> {
 
-            endereco.setId(1l);
+            endereco.setId(1L);
 
             Mockito.when(enderecoRepository.findByCep(EnderecoCriacao.CEP)).thenReturn(Optional.of(endereco));
 
@@ -112,14 +110,14 @@ public class EnderecoServiceTest {
 
         });
 
-        Assertions.assertEquals(endereco.getId(), 1l);
+        Assertions.assertEquals(endereco.getId(), 1L);
         Assertions.assertEquals(endereco.getCep(), EnderecoCriacao.CEP);
         Assertions.assertEquals(endereco.getRua(), EnderecoCriacao.RUA);
         Assertions.assertEquals(endereco.getComplemento(), EnderecoCriacao.COMPLEMENTO);
         Assertions.assertEquals(endereco.getBairro(), EnderecoCriacao.BAIRRO);
         Assertions.assertEquals(endereco.getCidade(), EnderecoCriacao.CIDADE);
         Assertions.assertEquals(endereco.getEstado(), EnderecoCriacao.ESTADO);
-        Assertions.assertEquals(endereco.getRegiao(), Regiao.SUDESTE);
+
     }
 
 }
