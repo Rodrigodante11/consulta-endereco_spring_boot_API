@@ -19,7 +19,6 @@ import java.util.Optional;
 @ActiveProfiles("test")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-
 public class EnderecoRepositoryTest {
 
     @Autowired
@@ -62,7 +61,34 @@ public class EnderecoRepositoryTest {
         Assertions.assertThat(result.isPresent()).isTrue();
     }
 
+    @Test
+    public void deveVerificarAExistenciadeUmCepNaoValido(){
+        Endereco endereco = criarEndereco();
 
+        entityManager.persist(endereco);
 
+        Optional<Endereco> result =  enderecoRepository.findByCep("00000000");
 
+        Assertions.assertThat(result.isPresent()).isFalse();
+    }
+
+    @Test
+    public void deveretornarFalsoQuandoNaoHouverEnderecoCadastradoComCep(){
+
+        boolean result =  enderecoRepository.existsByCep("37548000");
+
+        Assertions.assertThat(result).isFalse();
+    }
+
+    @Test
+    public void deveretornarTrueQuandoNaoHouverEnderecoCadastradoComCep(){
+
+        Endereco endereco = criarEndereco();
+
+        entityManager.persist(endereco);
+
+        boolean result =  enderecoRepository.existsByCep("37548000");
+
+        Assertions.assertThat(result).isTrue();
+    }
 }
