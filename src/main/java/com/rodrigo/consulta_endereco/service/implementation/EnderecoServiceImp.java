@@ -1,6 +1,6 @@
 package com.rodrigo.consulta_endereco.service.implementation;
 
-import com.rodrigo.consulta_endereco.api.dto.CepAPIExternaDTO;
+import com.rodrigo.consulta_endereco.controller.dto.CepAPIExternaDTO;
 import com.rodrigo.consulta_endereco.exception.ErroCadastroEnderecoException;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 import com.rodrigo.consulta_endereco.model.repository.EnderecoRepository;

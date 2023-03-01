@@ -1,6 +1,6 @@
 package com.rodrigo.consulta_endereco.utils;
 
-import com.rodrigo.consulta_endereco.api.dto.EnderecoDTO;
+import com.rodrigo.consulta_endereco.controller.dto.EnderecoDTO;
 
 public class EnderecoCriacaoDTO {
 

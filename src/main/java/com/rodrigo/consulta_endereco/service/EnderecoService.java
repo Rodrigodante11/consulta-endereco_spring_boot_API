@@ -1,6 +1,6 @@
 package com.rodrigo.consulta_endereco.service;
 
-import com.rodrigo.consulta_endereco.api.dto.CepAPIExternaDTO;
+import com.rodrigo.consulta_endereco.controller.dto.CepAPIExternaDTO;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 
 import java.util.Optional;

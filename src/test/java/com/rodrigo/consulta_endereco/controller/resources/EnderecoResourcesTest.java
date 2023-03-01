@@ -1,7 +1,7 @@
-package com.rodrigo.consulta_endereco.api.resources;
+package com.rodrigo.consulta_endereco.controller.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rodrigo.consulta_endereco.api.dto.EnderecoDTO;
+import com.rodrigo.consulta_endereco.controller.dto.EnderecoDTO;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 import com.rodrigo.consulta_endereco.service.EnderecoService;
 import com.rodrigo.consulta_endereco.utils.EnderecoCriacao;

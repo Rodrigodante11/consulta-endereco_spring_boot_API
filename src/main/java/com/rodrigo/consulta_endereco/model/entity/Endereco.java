@@ -18,6 +18,7 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // deixei para o banco dizer que eh auto incremento (bigserial postgre)
     private Long id;
 
+    @Column(unique = true)
     private String cep;
 
     private String rua;
