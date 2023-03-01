@@ -1,5 +1,6 @@
 package com.rodrigo.consulta_endereco.service;
 
+import com.rodrigo.consulta_endereco.exception.ErroCadastroEnderecoException;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
 import com.rodrigo.consulta_endereco.model.repository.EnderecoRepository;
 import com.rodrigo.consulta_endereco.service.implementation.EnderecoServiceImp;
@@ -119,5 +120,87 @@ public class EnderecoServiceTest {
         Assertions.assertEquals(endereco.getEstado(), EnderecoCriacao.ESTADO);
 
     }
+
+    @Test
+    public void deveRetornaValidoAoconsultarCEPValido(){
+        Assertions.assertDoesNotThrow(() ->{
+
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+
+            Mockito.doNothing().when(enderecoServiceImp).validarCep(endereco.getCep());
+
+            enderecoServiceImp.validar(endereco);
+        });
+    }
+
+    @Test
+    public void ErroDeValidaoPorCidadeVazio() {
+
+        Throwable exception = Assertions.assertThrows(ErroCadastroEnderecoException.class, () -> {
+
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+            endereco.setCidade(null);
+
+            Mockito.doNothing().when(enderecoServiceImp).validarCep(endereco.getCep());
+
+            enderecoServiceImp.validar(endereco);
+
+        });
+        Assertions.assertEquals("Informe uma Cidade", exception.getMessage());
+    }
+
+    @Test
+    public void ErroDeValidaoPorEstadoVazio() {
+
+        Throwable exception = Assertions.assertThrows(ErroCadastroEnderecoException.class, () -> {
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+            endereco.setEstado(null);
+
+            enderecoServiceImp.validar(endereco);
+
+        });
+        Assertions.assertEquals("Informe um Estado", exception.getMessage());
+    }
+
+    @Test
+    public void ErroDeValidaoPorCepVazio() {
+
+        Throwable exception = Assertions.assertThrows(ErroCadastroEnderecoException.class, () -> {
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+            endereco.setCep(null);
+
+            enderecoServiceImp.validar(endereco);
+
+        });
+        Assertions.assertEquals("Informe um CEP", exception.getMessage());
+    }
+
+    @Test
+    public void ErroDeValidaoPorTamanhoDeCepErrado() {
+
+        Throwable exception = Assertions.assertThrows(ErroCadastroEnderecoException.class, () -> {
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+            endereco.setCep("123456789");
+
+            enderecoServiceImp.validar(endereco);
+
+        });
+        Assertions.assertEquals("Tamanho do CEP invalido", exception.getMessage());
+    }
+
+    @Test
+    public void ErroDeValidaoPorFormatoDeCepInvalido() {
+
+        Throwable exception = Assertions.assertThrows(ErroCadastroEnderecoException.class, () -> {
+            Endereco endereco = EnderecoCriacao.criarEndereco();
+            endereco.setCep("01001-000");
+
+            enderecoServiceImp.validar(endereco);
+
+        });
+        Assertions.assertEquals("Informe um CEP Valido sem (-)", exception.getMessage());
+    }
+
+
 
 }

@@ -4,7 +4,6 @@ import com.rodrigo.consulta_endereco.api.dto.CepAPIExternaDTO;
 import com.rodrigo.consulta_endereco.api.dto.EnderecoDTO;
 import com.rodrigo.consulta_endereco.exception.ErroCadastroEnderecoException;
 import com.rodrigo.consulta_endereco.model.entity.Endereco;
-import com.rodrigo.consulta_endereco.model.enums.Regiao;
 import com.rodrigo.consulta_endereco.service.EnderecoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +15,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("v1")
 @RequiredArgsConstructor
-public class EnderecoResouces {
+public class EnderecoResources {
 
     private final EnderecoService enderecoService;
 
-    //Consustando a API EXterna do VIACEP
+    //CONSULTANDO a API EXTERNA DO VIACEP
     @GetMapping(value = "/consulta-endereco-api-enterna")
     public ResponseEntity consultaCepAPIExterna(@RequestBody CepAPIExternaDTO cep){
         try{
@@ -36,18 +35,27 @@ public class EnderecoResouces {
 
     //CONSULTANDO A API INTERNA DA BASE DE DADOS
     @GetMapping(value = "/consulta-endereco")
-    public ResponseEntity consultaCepAPIInterna(@RequestBody EnderecoDTO enderecoDTO){
+    public ResponseEntity consultaCepAPIInterna(@RequestBody EnderecoDTO enderecoDTO) {
+        try {
 
-        Endereco endereco =  new Endereco();
-        endereco.setCep(enderecoDTO.getCep());
 
-        Optional<Endereco> enderecoEncontrado = enderecoService.buscarEnderecoPorCep(endereco.getCep());
+            Endereco endereco = new Endereco();
+            endereco.setCep(enderecoDTO.getCep());
 
-        if(!enderecoEncontrado.isPresent()){
-            return ResponseEntity.badRequest().body(
-                    "Nao foi possivel realizar a consulta, Endereco nao enocontrado para o CEP informado");
+            Optional<Endereco> enderecoEncontrado = enderecoService.buscarEnderecoPorCep(endereco.getCep());
+
+            if (!enderecoEncontrado.isPresent()) {
+                return ResponseEntity.badRequest().body(
+                        "Nao foi possivel realizar a consulta, Endereco nao encontrado para o CEP informado");
+            }
+
+            EnderecoDTO enderecoDTORequest = converter(enderecoEncontrado.get());
+            enderecoDTORequest.setFrete(enderecoService.verFretePorEstado(enderecoDTORequest.getEstado()));
+
+            return ResponseEntity.ok(enderecoDTORequest);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(enderecoEncontrado);
     }
 
     @PostMapping(value = "/criar-endereco")
@@ -103,5 +111,15 @@ public class EnderecoResouces {
                 .bairro(enderecoDTO.getBairro())
                 .cidade(enderecoDTO.getCidade())
                 .estado(enderecoDTO.getEstado()).build();
+    }
+    private EnderecoDTO converter(Endereco endereco){
+        return EnderecoDTO.builder()
+                .id(endereco.getId())
+                .cep(endereco.getCep())
+                .rua(endereco.getRua())
+                .complemento(endereco.getComplemento())
+                .bairro(endereco.getBairro())
+                .cidade(endereco.getCidade())
+                .estado(endereco.getEstado()).build();
     }
 }
