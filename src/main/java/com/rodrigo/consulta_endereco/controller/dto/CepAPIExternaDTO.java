@@ -1,4 +1,4 @@
-package com.rodrigo.consulta_endereco.api.dto;
+package com.rodrigo.consulta_endereco.controller.dto;
 
 import lombok.*;
 
