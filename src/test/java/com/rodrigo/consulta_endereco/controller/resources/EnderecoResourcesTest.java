@@ -74,7 +74,7 @@ public class EnderecoResourcesTest {
         String json = new ObjectMapper().writeValueAsString(enderecoDTO);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(API.concat("/consulta-endereco"))
+                .post(API.concat("/consulta-endereco"))
                 .accept(JSON)
                 .contentType(JSON)
                 .content(json);
@@ -98,7 +98,7 @@ public class EnderecoResourcesTest {
         String json = new ObjectMapper().writeValueAsString(enderecoDTO);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(API.concat("/consulta-endereco"))
+                .post(API.concat("/consulta-endereco"))
                 .accept(JSON)
                 .contentType(JSON)
                 .content(json);
