@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class EnderecoServiceImp implements EnderecoService {
 
-    private EnderecoRepository enderecoRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public EnderecoServiceImp(EnderecoRepository enderecoRepository) {
         this.enderecoRepository = enderecoRepository;
@@ -66,31 +66,27 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Override
     public void validar(Endereco endereco) {
-        if(endereco.getCep() == null){
-            throw new ErroCadastroEnderecoException(" Informe um CEP");
-        }
-
-        if(endereco.getCep().length() !=8 ){
-            throw new ErroCadastroEnderecoException(" Tamanho do CEP invalido ");
-        }
 
         if(endereco.getCidade() == null){
-            throw new ErroCadastroEnderecoException(" Informe uma Cidade");
+            throw new ErroCadastroEnderecoException("Informe uma Cidade");
         }
 
         if(endereco.getEstado() == null){
-            throw new ErroCadastroEnderecoException(" Informe um Estado");
+            throw new ErroCadastroEnderecoException("Informe um Estado");
         }
 
         validarCep(endereco.getCep());
     }
 
     public void validarCep(String cep){
+        if(cep == null){
+            throw new ErroCadastroEnderecoException("Informe um CEP");
+        }
         if(cep.contains("-") ){
-            throw new ErroCadastroEnderecoException(" Informe um CEP Valido sem (-) ");
+            throw new ErroCadastroEnderecoException("Informe um CEP Valido sem (-)");
         }
         else if(cep.length() !=8 ){
-            throw new ErroCadastroEnderecoException(" Tamanho do CEP invalido ");
+            throw new ErroCadastroEnderecoException("Tamanho do CEP invalido");
         }
     }
 
